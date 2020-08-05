@@ -25,8 +25,8 @@ class ListProviderAppointmentsService {
   public async execute({
     provider_id,
     day,
-    year,
     month,
+    year,
   }: IRequest): Promise<Appointment[]> {
     const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
 
@@ -44,11 +44,9 @@ class ListProviderAppointmentsService {
         }
       );
 
-      console.log('Buscou do banco');
-
       await this.cacheProvider.save(cacheKey, classToClass(appointments));
     }
-    return appointments;
+    return classToClass(appointments);
   }
 }
 
