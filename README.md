@@ -1,69 +1,293 @@
-# Recuperação de senha
+<h1 align="center">API GoBarber</h1>
 
-**RF**
+---
 
-  - O usuário deve poder recuperar sua senha informando o seu e-mail;
-  - O usuário deve receber um e-mail com instruções de recuperação de senha;
-  - O uusuário deve poder resetar sua senha;
+## 📁 Project
 
-**RNF**
+The ideia is to provide an application web and mobile for a barber shop, where i can make an appointment to cut my hair at available barber time.
 
-  - Utilizar Mailtrap para testar envios em ambiente de dev;
-  - Utilizar Amazon SES para envios em produção;
-  - O envio de e-mails deve acontecer em segundo plano (background job);
+- [Web](https://github.com/willianPetri/GoBarber-frontend)
+- [Mobile](https://github.com/willianPetri/GoBarber-mobile)
 
-**RN**
+---
 
-  - O link enviado por email para resetar senha, deve expirar em 2h;
-  - O usuário precisa confirmar a nova senha ao resetar sua senha;
+## 🚀 Technologies
 
-# Atualização de perfil
+This project was developed at the Rocketseat GoStack Bootcamp with the following technologies:
 
-**RF**
+- [Node](https://nodejs.org/en/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Express](https://expressjs.com/)
+- [Cors](https://www.npmjs.com/package/cors)
+- [Tsyringe](https://www.npmjs.com/package/tsyringe)
+- [AWS](https://docs.aws.amazon.com/index.html)
+- [Nodemailer](https://nodemailer.com/about/)
+- [JWT](https://www.npmjs.com/package/jsonwebtoken)
+- [MongoDB](https://www.mongodb.com/)
+- [Redis](https://hub.docker.com/_/redis)
+- [Postgres](https://hub.docker.com/_/postgres)
+- [Dotenv](https://www.npmjs.com/package/dotenv)
+- [TypeORM](https://typeorm.io/#/)
+- [Class-transformer](https://www.npmjs.com/package/class-transformer)
+- [Bcryptjs](https://www.npmjs.com/package/bcrypt)
+- [Celebrate](https://www.npmjs.com/package/celebrate)
+- [Uuidv4](https://www.npmjs.com/package/uuidv4)
+- [VS Code](https://code.visualstudio.com/) with [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) and [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
-  - O usuário deve poder atualizar seu nome, email e senha;
+---
 
-**RN**
+## ⚙️ How To Use
 
-  - O usuário não pode alterar seu email para um email ja utilizado;
-  - Para atualizar sua senha, o usuário deve informar a senha antiga;
-  - Para atualizar sua senha, o usuário precisar confirmar a nova senha;
+```bash
 
-# Painel do prestador
+  # Clone this repository
+  $ git clone https://github.com/willianPetri/GoBarber-backend.git
 
-**RF**
+  # Go into the repository
+  $ cd GoBarber-backend
 
-  - O usuário deve poder listar seus agendamentos de um dia específico;
-  - O prestador deve receber uma notificação sempre que houver um novo agendamento;
-  - O prestador deve poder visualizar as notificações não lidas;
+  # Install dependecies
+  $ yarn install
 
-**RNF**
+  # Run Postgres on docker port 5434 and change the host to localhost on the file ormconfig.json
+  # Create a database with the name "gostack_gobarber"
+  # Run MongoDB on docker port 27017 and change the host to localhost on the file ormconfig.json
+  # Create a database with the name "gobarber"
+  # Run Redis on docker port 6379
+  # Run migration
+  $ yarn typeorm migration:run
 
-  - Os agendamentos do prestador no dia devem ser armazenados em cache;
-  - As notificações do prestador devem ser armazenadas no MongoDB;
-  - As notificações do prestador devem ser enviadas em tempo-real utilizando Socket.io;
+  # Run the project
+  $ yarn dev:server
+```
+## 📬 HTTP Request
+
+<details>
+  <summary>Providers {METHOD}/providers </summary>
+
+  ## All Routes need Bearer token
+```bash
+  token: jwt
+```
+<!--START_SECTION:activity-->
+<details>
+
+  <summary>GET</summary>
+
+  <details>
 
 
-**RN**
 
-  - A notificação deve ter um status de lida ou não-lida para que o prestador possa controlar;
+  <summary>List Providers</summary>
 
-# Agendamento de serviços
 
-**RF**
+   ### Response
 
-- O usuário deve poder listar os dias de um mês com pelo menos um horário disponível de um prestador;
-- O usuário deve poder listar horários dispoíveis em um dia específico de um prestador;
-- O usuário deve poder realizar um novo agendamento com um prestador;
+  ```json
+    [
+      {
+        "id": "e6929574-6a46-4829-8c8c-c6bbeff83164",
+        "name": "Willian3",
+        "email": "wopetri3@hotmail.com",
+        "avatar": "2b4d2b1cdf2a29cc6470-Will.jpg",
+        "created_at": "2020-07-15T18:15:53.770Z",
+        "update_at": "2020-07-28T00:44:33.450Z",
+        "avatar_url": "http://localhost:3333/files/2b4d2b1cdf2a29cc6470-Will.jpg"
+      },
+      {
+        "id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+        "name": "Willian Petri",
+        "email": "wopetri@hotmail.com",
+        "avatar": "6c9bbdda9e1af791d43f-04bdfe34-a498-423b-8e1f-ab63baa424a8.jpg",
+        "created_at": "2020-07-15T17:46:46.051Z",
+        "update_at": "2020-08-17T01:44:55.728Z",
+        "avatar_url": "http://localhost:3333/files/6c9bbdda9e1af791d43f-04bdfe34-a498-423b-8e1f-ab63baa424a8.jpg"
+      }
+    ]
+  ```
+  </details>
 
-**RNF**
+ <details>
 
-- A listagem de prestadores deve ser armazenada em cache;
+  <summary>Providers Day Availability</summary>
 
-**RN**
+  ##  /providers/{id}/day-availability
 
-- Cada agendamento deve durar exatamente 1h;
-- Os agendamentos devm estar disponíveis entre 8h às 18h (Primeiro às 8h, último às 17h);
-- O usuário não pode agendar em um horário já ocupado;
-- O usuário não pode agendar em um horário que já passou;
-- O usuário não pode agendar serviçoes consigo mesmo;
+  ### Route Params
+  ```bash
+    id: string
+  ```
+
+  ### Query Params
+  ```bash
+    year: number
+    month: number
+    day: number
+  ```
+   ### Response
+
+  ```json
+    [
+      {
+        "hour": 8,
+        "available": false
+      },
+      {
+        "hour": 9,
+        "available": false
+      },
+      {
+        "hour": 10,
+        "available": false
+      }
+    ]
+  ```
+  </details>
+
+ <details>
+
+  <summary>Providers Month Availability</summary>
+
+##  /providers/{id}/month-availability
+
+ ### Route Params
+  ```bash
+    id: string
+  ```
+
+  ### Query Params
+  ```bash
+    year: number
+    month: number
+  ```
+
+   ### Response
+
+  ```json
+    [
+      {
+        "day": 1,
+        "available": false
+      },
+      {
+        "day": 2,
+        "available": false
+      },
+      {
+        "day": 3,
+        "available": false
+      }
+    ]
+  ```
+  </details>
+
+
+  <details>
+
+  <summary>List Providers Appointments</summary>
+
+##  /appointments/me
+### Query Params
+  ```bash
+    year: number
+    month: number
+    day: number
+  ```
+   ### Response
+
+  ```json
+    [
+      {
+        "id": "ff2e81c8-2d04-4a4b-837e-ee1007422c7c",
+        "provider_id": "84329208-eb8c-40bd-bdf3-dee2bc30f9d8",
+        "user_id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+        "date": "2020-08-06T19:00:00.000Z",
+        "created_at": "2020-08-05T03:05:00.197Z",
+        "update_at": "2020-08-05T03:05:00.197Z",
+        "user": {
+          "id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+          "name": "Willian",
+          "email": "wopetri@hotmail.com",
+          "avatar": "fb861ab6587a0e556b77-Will.jpg",
+          "created_at": "2020-07-15T17:46:46.051Z",
+          "update_at": "2020-07-28T00:45:15.339Z",
+          "avatar_url": "http://localhost:3333/files/fb861ab6587a0e556b77-Will.jpg"
+        }
+      },
+      {
+        "id": "96022f02-047f-4bb1-9b46-40895a2c1241",
+        "provider_id": "84329208-eb8c-40bd-bdf3-dee2bc30f9d8",
+        "user_id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+        "date": "2020-08-06T18:00:00.000Z",
+        "created_at": "2020-08-05T03:05:04.370Z",
+        "update_at": "2020-08-05T03:05:04.370Z",
+        "user": {
+          "id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+          "name": "Willian",
+          "email": "wopetri@hotmail.com",
+          "avatar": "fb861ab6587a0e556b77-Will.jpg",
+          "created_at": "2020-07-15T17:46:46.051Z",
+          "update_at": "2020-07-28T00:45:15.339Z",
+          "avatar_url": "http://localhost:3333/files/fb861ab6587a0e556b77-Will.jpg"
+        }
+      }
+    ]
+  ```
+  </details>
+
+</details>
+
+
+
+<details>
+  <summary>POST</summary>
+
+## POST /appointments
+  ### Request Body
+
+  ```bash
+    {
+      provider_id: string
+      date: date
+    }
+  ```
+
+
+  ### Example
+
+  ```json
+  {
+    "provider_id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+    "date": "2020-08-31 08:00:00"
+  }
+  ```
+
+  <h3> Response 200 </h3>
+
+  ```json
+    {
+    "provider_id": "04bdfe34-a498-423b-8e1f-ab63baa424a8",
+    "user_id": "66704d24-b44e-4812-bd3c-eb190141fd92",
+    "date": "2020-08-31T11:00:00.000Z",
+    "id": "8800ceed-557c-4263-81c8-5a8d6c8e6107",
+    "created_at": "2020-08-27T02:37:03.482Z",
+    "update_at": "2020-08-27T02:37:03.482Z"
+  }
+  ```
+
+<h3> Response 401 Unauthorized </h3>
+
+  ```json
+    {
+      "status": "error",
+      "message": "Invalid JWT token"
+    }
+  ```
+</details>
+
+<!--END_SECTION:activity-->
+</details>
+
+---
+
+Made with ❤ by Willian Petri  [✌ Get in touch!](https://www.linkedin.com/in/willian-petri-84a935135/)
